@@ -16,6 +16,14 @@ class MessageController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'surname' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'message' => 'required',
+        ]);
+
         $message = Message::create($request->all());
 
         return response()->json($message);
@@ -38,8 +46,11 @@ class MessageController extends Controller
 
     public function update(Request $request, $id)
     {
-        $message = Message::findOrFail($id);
+        $request->validate([
+              'email' => 'email',
+        ]);
 
+        $message = Message::findOrFail($id);
         $message->update($request->all());
 
         return response()->json($message);
